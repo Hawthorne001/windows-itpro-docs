@@ -1,8 +1,8 @@
 ---
-title: Customize the Start layout
+title: Customize The Start Layout For Managed Windows Devices
 description: Learn how to customize the Windows Start layout, export its configuration, and deploy the customization to other devices.
 ms.topic: how-to
-ms.date: 04/10/2024
+ms.date: 12/02/2024
 zone_pivot_groups: windows-versions-11-10
 appliesto:
 ---
@@ -304,10 +304,10 @@ Column="2"/>
 
 You can use the `start:SecondaryTile` tag to pin a web link through a Microsoft Edge secondary tile. This method doesn't require more actions compared to the method of using legacy `.url` shortcuts (through the `start:DesktopApplicationTile` tag).
 
-The following example shows how to create a tile of the Web site's URL using the Microsoft Edge secondary tile:
+The following example shows how to create a tile of the Web site's URL using the Microsoft Edge secondary tile. Ensure to replace `<--Microsoft Edge AUMID-->` with the AUMID of Microsoft Edge (learn how to [Find the Application User Model ID of an installed app](../store/find-aumid.md)):
 
 ```XML
-<start:SecondaryTile AppUserModelID="Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge"
+<start:SecondaryTile AppUserModelID="<--Microsoft Edge AUMID-->"
 TileID="MyWeblinkTile"
 Arguments="http://msn.com"
 DisplayName="MySite"
@@ -427,13 +427,13 @@ You can edit the JSON file to make any modifications to the **Pinned** section o
 1. Open the `LayoutModification.json` file in a JSON editor, such as Visual Studio Code or Notepad
 1. The `pinnedList` section includes all the pins that are applied to the Start layout
 
-You can add more apps to the section using the following keys:
+    You can add more apps to the section using the following keys:
 
-| Key | Description |
-|--|--|
-| `packagedAppID` | Used for Universal Windows Platform (UWP) apps. To pin a UWP app, use the app's AUMID. |
-| `desktopAppID` | Used for desktop apps. To pin a desktop app, use the app's AUMID. If the app doesn't have an AUMID, use the `desktopAppLink` instead. |
-| `desktopAppLink` | Used for desktop apps that don't have an associated AUMID. To pin this type of app, use the path to the `.lnk` shortcut that points to the app. |
+    | Key | Description |
+    |--|--|
+    | `packagedAppID` | Used for Universal Windows Platform (UWP) apps. To pin a UWP app, use the app's AUMID. |
+    | `desktopAppID` | Used for desktop apps. To pin a desktop app, use the app's AUMID. If the app doesn't have an AUMID, use the `desktopAppLink` instead. |
+    | `desktopAppLink` | Used for desktop apps that don't have an associated AUMID. To pin this type of app, use the path to the `.lnk` shortcut that points to the app. |
 
 ::: zone-end
 
@@ -649,45 +649,3 @@ When you configure the Start layout with policy settings, you overwrite the enti
 [MEM-1]: /mem/intune/configuration/custom-settings-windows-10
 [PS-1]: /powershell/module/startlayout/export-startlayout
 [WIN-1]: /windows/client-management/mdm/policy-csp-start
-
-
-<!--
-## Add image for secondary Microsoft Edge tiles
-
-App tiles are the Start screen tiles that represent and launch an app. A tile that allows a user to go to a specific location in an app is a *secondary tile*. Some examples of secondary tiles include:
-
-- Weather updates for a specific city in a weather app
-- A summary of upcoming events in a calendar app
-- Status and updates from an important contact in a social app
-- A website in Microsoft Edge
-
-By using the PowerShell cmdlet `export-StartLayoutEdgeAssets` and the policy setting `ImportEdgeAssets`, the tiles display the same as they did on the device from which you exported the Start layout.
-
-[!INCLUDE [example-secondary-tiles](includes/example-secondary-tiles.md)]
-
-## Export Start layout and assets
-
-1. If you'd like to change the image for a secondary tile to your own custom image, open the layout.xml file, and look for the images that the tile references.
-   - For example, your layout.xml contains `Square150x150LogoUri="ms-appdata:///local/PinnedTiles/21581260870/hires.png" Wide310x150LogoUri="ms-appx:///"`
-
-   - Open `C:\Users\<username>\AppData\Local\Packages\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\LocalState\PinnedTiles\21581260870\` and replace those images with your customized images.
-
-1. In Windows PowerShell, enter the following command:
-
-    ```powershell
-    Export-StartLayoutEdgeAssets assets.xml
-    ```
-
-[!INCLUDE [example-assets](includes/example-assets.md)]
-
-## Configure policy settings
-
-Prepare the Start layout and Edge assets XML files
-
-The `Export-StartLayout` and **export-StartLayoutEdgeAssets** cmdlets produce XML files. Because Windows Configuration Designer produces a customizations.xml file that contains the configuration settings, adding the Start layout and Edge assets sections to the customizations.xml file directly would result in an XML file embedded in an XML file. Before you add the Start layout and Edge assets sections to the customizations.xml file, you must replace the markup characters in your layout.xml with escape characters.
-
-1. Copy the contents of layout.xml into an online tool that escapes characters.
-1. Copy the contents of assets.xml into an online tool that escapes characters.
-1. When you create a provisioning package, you'll copy the text with the escape characters and paste it in the customizations.xml file for your project.
-
--->

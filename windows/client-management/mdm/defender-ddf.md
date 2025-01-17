@@ -1,7 +1,7 @@
 ---
 title: Defender DDF file
 description: View the XML file containing the device description framework (DDF) for the Defender configuration service provider.
-ms.date: 01/31/2024
+ms.date: 11/27/2024
 ---
 
 <!-- Auto-Generated CSP Document -->
@@ -1627,15 +1627,15 @@ The following XML file contains the device description framework (DDF) for the D
           <MSFT:AllowedValues ValueType="ENUM">
             <MSFT:Enum>
               <MSFT:Value>0</MSFT:Value>
-              <MSFT:ValueDescription>Not configured (Default). The device will stay up to date automatically during the gradual release cycle. Suitable for most devices.</MSFT:ValueDescription>
+              <MSFT:ValueDescription>Not configured (Default). Microsoft will either assign the device to Current Channel (Broad) or a beta channel early in the gradual release cycle. The channel selected by Microsoft might be one that receives updates early during the gradual release cycle, which may not be suitable for devices in a production or critical environment</MSFT:ValueDescription>
             </MSFT:Enum>
             <MSFT:Enum>
               <MSFT:Value>4</MSFT:Value>
-              <MSFT:ValueDescription>Current Channel (Staged): Devices will be offered updates after the release cycle. Suggested to apply to a small, representative part of production population (~10%).</MSFT:ValueDescription>
+              <MSFT:ValueDescription>Current Channel (Staged): Same as Current Channel (Broad).</MSFT:ValueDescription>
             </MSFT:Enum>
             <MSFT:Enum>
               <MSFT:Value>5</MSFT:Value>
-              <MSFT:ValueDescription>Current Channel (Broad): Devices will be offered updates only after the gradual release cycle completes. Suggested to apply to a broad set of devices in your production population (~10-100%).</MSFT:ValueDescription>
+              <MSFT:ValueDescription>Current Channel (Broad): Devices will be offered updates only after the gradual release cycle completes. Suggested to apply to a broad set of devices in all populations, including production.</MSFT:ValueDescription>
             </MSFT:Enum>
           </MSFT:AllowedValues>
         </DFProperties>
@@ -1755,6 +1755,7 @@ The following XML file contains the device description framework (DDF) for the D
               <MSFT:ValueDescription>DNS Sinkhole is enabled</MSFT:ValueDescription>
             </MSFT:Enum>
           </MSFT:AllowedValues>
+          <MSFT:Deprecated OsBuildDeprecated="10.0.14393" />
         </DFProperties>
       </Node>
       <Node>
@@ -2372,8 +2373,8 @@ The following XML file contains the device description framework (DDF) for the D
             <Get />
             <Replace />
           </AccessType>
-          <DefaultValue>25</DefaultValue>
-          <Description>Configure how many days can pass before an aggressive quick scan is triggered. The valid interval is [7-60] days. If not configured, aggressive quick scans will be disabled. By default, the value is set to 25 days when enabled.</Description>
+          <DefaultValue>30</DefaultValue>
+          <Description>Configure how many days can pass before an aggressive quick scan is triggered. The valid interval is [7-60] days. If not configured, aggressive quick scans will be disabled. By default, the value is set to 30 days when enabled.</Description>
           <DFFormat>
             <int />
           </DFFormat>
@@ -2722,6 +2723,84 @@ The following XML file contains the device description framework (DDF) for the D
         </DFProperties>
       </Node>
       <Node>
+        <NodeName>DisableCoreServiceECSIntegration</NodeName>
+        <DFProperties>
+          <AccessType>
+            <Add />
+            <Delete />
+            <Get />
+            <Replace />
+          </AccessType>
+          <DefaultValue>0x0</DefaultValue>
+          <Description>Turn off ECS integration for Defender core service</Description>
+          <DFFormat>
+            <int />
+          </DFFormat>
+          <Occurrence>
+            <One />
+          </Occurrence>
+          <Scope>
+            <Dynamic />
+          </Scope>
+          <DFType>
+            <MIME />
+          </DFType>
+          <MSFT:Applicability>
+            <MSFT:OsBuildVersion>10.0.14393</MSFT:OsBuildVersion>
+            <MSFT:CspVersion>1.3</MSFT:CspVersion>
+          </MSFT:Applicability>
+          <MSFT:AllowedValues ValueType="Flag">
+            <MSFT:Enum>
+              <MSFT:Value>0x0</MSFT:Value>
+              <MSFT:ValueDescription>The Defender core service will use the Experimentation and Configuration Service (ECS) to rapidly deliver critical, org-specific fixes.</MSFT:ValueDescription>
+            </MSFT:Enum>
+            <MSFT:Enum>
+              <MSFT:Value>0x1</MSFT:Value>
+              <MSFT:ValueDescription>The Defender core service stops using the Experimentation and Configuration Service (ECS). Fixes will continue to be delivered through security intelligence updates.</MSFT:ValueDescription>
+            </MSFT:Enum>
+          </MSFT:AllowedValues>
+        </DFProperties>
+      </Node>
+      <Node>
+        <NodeName>DisableCoreServiceTelemetry</NodeName>
+        <DFProperties>
+          <AccessType>
+            <Add />
+            <Delete />
+            <Get />
+            <Replace />
+          </AccessType>
+          <DefaultValue>0x0</DefaultValue>
+          <Description>Turn off OneDsCollector telemetry for Defender core service</Description>
+          <DFFormat>
+            <int />
+          </DFFormat>
+          <Occurrence>
+            <One />
+          </Occurrence>
+          <Scope>
+            <Dynamic />
+          </Scope>
+          <DFType>
+            <MIME />
+          </DFType>
+          <MSFT:Applicability>
+            <MSFT:OsBuildVersion>10.0.14393</MSFT:OsBuildVersion>
+            <MSFT:CspVersion>1.3</MSFT:CspVersion>
+          </MSFT:Applicability>
+          <MSFT:AllowedValues ValueType="Flag">
+            <MSFT:Enum>
+              <MSFT:Value>0x0</MSFT:Value>
+              <MSFT:ValueDescription>The Defender core service will use the OneDsCollector framework to rapidly collect telemetry.</MSFT:ValueDescription>
+            </MSFT:Enum>
+            <MSFT:Enum>
+              <MSFT:Value>0x1</MSFT:Value>
+              <MSFT:ValueDescription>The Defender core service stops using the OneDsCollector framework to rapidly collect telemetry, impacting Microsoft's ability to quickly recognize and address poor performance, false positives, and other problems.</MSFT:ValueDescription>
+            </MSFT:Enum>
+          </MSFT:AllowedValues>
+        </DFProperties>
+      </Node>
+      <Node>
         <NodeName>IntelTDTEnabled</NodeName>
         <DFProperties>
           <AccessType>
@@ -2877,6 +2956,84 @@ The following XML file contains the device description framework (DDF) for the D
             <MSFT:Enum>
               <MSFT:Value>1</MSFT:Value>
               <MSFT:ValueDescription>Use ESP reputation engine</MSFT:ValueDescription>
+            </MSFT:Enum>
+          </MSFT:AllowedValues>
+        </DFProperties>
+      </Node>
+      <Node>
+        <NodeName>EnableUdpSegmentationOffload</NodeName>
+        <DFProperties>
+          <AccessType>
+            <Add />
+            <Delete />
+            <Get />
+            <Replace />
+          </AccessType>
+          <DefaultValue>0</DefaultValue>
+          <Description>This setting enables Udp Segmentation Offload Network Protection.</Description>
+          <DFFormat>
+            <int />
+          </DFFormat>
+          <Occurrence>
+            <One />
+          </Occurrence>
+          <Scope>
+            <Dynamic />
+          </Scope>
+          <DFType>
+            <MIME />
+          </DFType>
+          <MSFT:Applicability>
+            <MSFT:OsBuildVersion>10.0.14393</MSFT:OsBuildVersion>
+            <MSFT:CspVersion>1.3</MSFT:CspVersion>
+          </MSFT:Applicability>
+          <MSFT:AllowedValues ValueType="ENUM">
+            <MSFT:Enum>
+              <MSFT:Value>0</MSFT:Value>
+              <MSFT:ValueDescription>Udp Segmentation Offload is disabled</MSFT:ValueDescription>
+            </MSFT:Enum>
+            <MSFT:Enum>
+              <MSFT:Value>1</MSFT:Value>
+              <MSFT:ValueDescription>Udp Segmentation Offload is enabled</MSFT:ValueDescription>
+            </MSFT:Enum>
+          </MSFT:AllowedValues>
+        </DFProperties>
+      </Node>
+      <Node>
+        <NodeName>EnableUdpReceiveOffload</NodeName>
+        <DFProperties>
+          <AccessType>
+            <Add />
+            <Delete />
+            <Get />
+            <Replace />
+          </AccessType>
+          <DefaultValue>0</DefaultValue>
+          <Description>This setting enables Udp Receive Offload Network Protection.</Description>
+          <DFFormat>
+            <int />
+          </DFFormat>
+          <Occurrence>
+            <One />
+          </Occurrence>
+          <Scope>
+            <Dynamic />
+          </Scope>
+          <DFType>
+            <MIME />
+          </DFType>
+          <MSFT:Applicability>
+            <MSFT:OsBuildVersion>10.0.14393</MSFT:OsBuildVersion>
+            <MSFT:CspVersion>1.3</MSFT:CspVersion>
+          </MSFT:Applicability>
+          <MSFT:AllowedValues ValueType="ENUM">
+            <MSFT:Enum>
+              <MSFT:Value>0</MSFT:Value>
+              <MSFT:ValueDescription>Udp Receive Offload is disabled</MSFT:ValueDescription>
+            </MSFT:Enum>
+            <MSFT:Enum>
+              <MSFT:Value>1</MSFT:Value>
+              <MSFT:ValueDescription>Udp Receive Offload is enabled</MSFT:ValueDescription>
             </MSFT:Enum>
           </MSFT:AllowedValues>
         </DFProperties>
@@ -3438,6 +3595,104 @@ The following XML file contains the device description framework (DDF) for the D
                 </MSFT:Enum>
               </MSFT:AllowedValues>
             </DFProperties>
+          </Node>
+          <Node>
+            <NodeName>BruteForceProtectionPlugins</NodeName>
+            <DFProperties>
+              <AccessType>
+                <Get />
+              </AccessType>
+              <DFFormat>
+                <node />
+              </DFFormat>
+              <Occurrence>
+                <One />
+              </Occurrence>
+              <Scope>
+                <Dynamic />
+              </Scope>
+              <DFType>
+                <DDFName />
+              </DFType>
+            </DFProperties>
+            <Node>
+              <NodeName>BruteForceProtectionLocalNetworkBlocking</NodeName>
+              <DFProperties>
+                <AccessType>
+                  <Add />
+                  <Delete />
+                  <Get />
+                  <Replace />
+                </AccessType>
+                <DefaultValue>0</DefaultValue>
+                <Description>Extend brute-force protection coverage in Microsoft Defender Antivirus to block local network addresses.</Description>
+                <DFFormat>
+                  <int />
+                </DFFormat>
+                <Occurrence>
+                  <One />
+                </Occurrence>
+                <Scope>
+                  <Dynamic />
+                </Scope>
+                <DFType>
+                  <MIME />
+                </DFType>
+                <MSFT:Applicability>
+                  <MSFT:OsBuildVersion>10.0.16299</MSFT:OsBuildVersion>
+                  <MSFT:CspVersion>1.3</MSFT:CspVersion>
+                </MSFT:Applicability>
+                <MSFT:AllowedValues ValueType="ENUM">
+                  <MSFT:Enum>
+                    <MSFT:Value>0</MSFT:Value>
+                    <MSFT:ValueDescription>Brute-force protection will not block local network addresses</MSFT:ValueDescription>
+                  </MSFT:Enum>
+                  <MSFT:Enum>
+                    <MSFT:Value>1</MSFT:Value>
+                    <MSFT:ValueDescription>Brute-force protection will block local network addresses</MSFT:ValueDescription>
+                  </MSFT:Enum>
+                </MSFT:AllowedValues>
+              </DFProperties>
+            </Node>
+            <Node>
+              <NodeName>BruteForceProtectionSkipLearningPeriod</NodeName>
+              <DFProperties>
+                <AccessType>
+                  <Add />
+                  <Delete />
+                  <Get />
+                  <Replace />
+                </AccessType>
+                <DefaultValue>0</DefaultValue>
+                <Description>Skip the 2-week initial learning period, so brute-force protection in Microsoft Defender Antivirus can start blocking immediately.</Description>
+                <DFFormat>
+                  <int />
+                </DFFormat>
+                <Occurrence>
+                  <One />
+                </Occurrence>
+                <Scope>
+                  <Dynamic />
+                </Scope>
+                <DFType>
+                  <MIME />
+                </DFType>
+                <MSFT:Applicability>
+                  <MSFT:OsBuildVersion>10.0.16299</MSFT:OsBuildVersion>
+                  <MSFT:CspVersion>1.3</MSFT:CspVersion>
+                </MSFT:Applicability>
+                <MSFT:AllowedValues ValueType="ENUM">
+                  <MSFT:Enum>
+                    <MSFT:Value>0</MSFT:Value>
+                    <MSFT:ValueDescription>Brute-force protection blocks threats only after completing a 2-week learning period</MSFT:ValueDescription>
+                  </MSFT:Enum>
+                  <MSFT:Enum>
+                    <MSFT:Value>1</MSFT:Value>
+                    <MSFT:ValueDescription>Brute-force protection starts blocking threats immediately</MSFT:ValueDescription>
+                  </MSFT:Enum>
+                </MSFT:AllowedValues>
+              </DFProperties>
+            </Node>
           </Node>
           <Node>
             <NodeName>BruteForceProtectionExclusions</NodeName>

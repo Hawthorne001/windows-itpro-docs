@@ -13,7 +13,7 @@ appliesto:
 - ✅ <a href=https://learn.microsoft.com/windows/release-health/supported-versions-windows-client target=_blank>Windows 11</a>
 - ✅ <a href=https://learn.microsoft.com/windows/release-health/supported-versions-windows-client target=_blank>Windows 10</a>
 - ✅ <a href=https://learn.microsoft.com/windows/deployment/do/waas-microsoft-connected-cache target=_blank>Microsoft Connected Cache for ISPs</a>	
-ms.date: 02/07/2024
+ms.date: 01/14/2025
 ---
 
 # Support and troubleshooting
@@ -36,53 +36,51 @@ During sign-up, a verification code is sent to your NOC email address present in
 
 #### Unable to re-sign up
 
-Delete any MCC resource that you're using before you resign up for the service. Deleting any existing MCC resource unlocks your ASN, which allows you to successfully sign up.
-
+Delete any Microsoft Connected Cache resource that you're using before you resign up for the service. Deleting any existing Connected Cache resource unlocks your ASN, which allows you to successfully sign up.
 
 ### Cache Node Errors  
 
 #### Network connectivity issues
 
  Updating Docker's DNS can help resolve some connectivity issues.
- Try the following Docker DNS updates until one solves your connectivity problem. 
+ Try the following Docker DNS updates until one solves your connectivity problem.
  Once connectivity is established, there's no need to continue updating Docker's DNS.
 
 ##### Update Docker's DNS to use the Google DNS resolver
 
-```
+```bash
 nano /etc/docker/daemon.json
 ```
 
 Update the contents of this file to match the following example, which includes the public Google DNS resolver:
 
-```
+```bash
 "log-driver": "json-file", "log-opts": {"max-size": "10m","max-file": "3"},"dns":["8.8.8.8", "8.8.4.4"]
-``` 
+```
 
 Save and close using the command CTRL-X and then Y(es) to save
-		 
+
 Restart Docker for this change to take effect:
 
-```
+```bash
 systemctl restart docker
 ```
 
 Rerun the IoT Edge Check command to validate proper connectivity:
 
-```
+```bash
 iotedge check -verbose
 ```
 
-
 ##### Update Docker's DNS to use your company's DNS resolver
 
-```
+```bash
 nano /etc/docker/daemon.json
 ```
 
-Update the contents of this file to match the following example, which includes the public Google DNS resolver: 
+Update the contents of this file to match the following example, which includes the public Google DNS resolver:
 
-```
+```bash
 "log-driver": "json-file", "log-opts": {"max-size": "10m","max-file": "3"},"dns":["<Your companies DNS Resolver IP Address>"]
 ```
 
@@ -90,27 +88,37 @@ Save and close using the command CTRL-X and then Y(es) to save.
 
 Restart Docker for this change to take effect:
 
-```
+```bash
 systemctl restart docker
 ```
 
 Rerun the IoT Edge Check command to validate proper connectivity:
 
-```
+```bash
 iotedge check -verbose
 ```
+<br>
+
+## Updating from Ubuntu 20.04 to 22.04
+You can now provision Microsoft Connected Cache for ISP on Ubuntu 22.04.
+If you have a cache node provisioned on Ubuntu 20.04, you will need to uninstall it first before updating to Ubuntu 22.04.
+Once you have updated the system, download the provisioning package from Azure portal and run the provisioning script on the portal.
+For more information on provisioning cache node, visit, [Create, provision and deploy cache node](mcc-isp-create-provision-deploy.md#provision-your-server).
+
+<br>
 
 ## Diagnose and Solve Problems
 
-If this article isn't resolving the issue you're facing with your cache node, you can use the **Diagnose and solve problems** functionality within your MCC resource to continue troubleshooting. **Diagnose and solve problems** contains solutions to most common problems that users might face as they onboard.
+If this article isn't resolving the issue you're facing with your cache node, you can use the **Diagnose and solve problems** functionality within your Connected Cache resource to continue troubleshooting. **Diagnose and solve problems** contains solutions to most common problems that users might face as they onboard.
 
-You can find **Diagnose and solve problems** on the left pane within your MCC resource.
+You can find **Diagnose and solve problems** on the left pane within your Connected Cache resource.
 
 :::image type="content" source="images/mcc-isp-diagnose-solve.png" alt-text="A screenshot of Azure portal showing the Diagnose and Solve problems tab on the left hand pane of Azure portal." lightbox="images/mcc-isp-diagnose-solve.png":::
 
 Within **Diagnose and solve problems**, select **Troubleshoot** under the type of problem you're facing and follow the prompts that narrow down the solution to the issue.
 
 :::image type="content" source="images/mcc-isp-diagnose-solve-troubleshoot.png" alt-text="A screenshot of Azure portal showing the option to select Troubleshoot to continue troubleshooting common issues related to the installation of Microsoft Connected Cache." lightbox="images/mcc-isp-diagnose-solve-troubleshoot.png":::
+
 
 ## Steps to obtain an Azure subscription ID
 
@@ -122,4 +130,3 @@ To onboard onto Microsoft Connected Cache, you'll need an Azure subscription ID.
 
 - [Pay-as-you-go-subscription](https://azure.microsoft.com/offers/ms-azr-0003p/)
 - [Azure free account FAQs](https://azure.microsoft.com/free/free-account-faq/)
-
